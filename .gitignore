@@ -2,3 +2,5 @@
 .smex-items
 elpa/
 *~
+ido.last
+*#*

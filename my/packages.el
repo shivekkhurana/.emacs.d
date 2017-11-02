@@ -12,32 +12,32 @@
 	(package-refresh-contents)
 	(package-install 'use-package))
 
-;; Cider
+;; cider
 (use-package cider
   :ensure t
   :pin melpa-stable)
 
-;; try
+;; try packagaes without installing them
 (use-package try
   :ensure t)
 
-;; multiple-cursors
-(use-package multiple-cursors
+;; the almighty parinifer
+(use-package parinfer
   :ensure t
-  :commands (mc/add-cursor-on-click
-	     mc/edit-beginning-of-lines
-	     mc/edit-lines
-	     mc/insert-numbers
-	     mc/mark-all-dwim
-	     mc/mark-all-in-region-regexp
-	     mc/mark-all-like-this
-	     mc/mark-next-like-this
-	     mc/mark-previous-like-this
-	     mc/mark-sgml-tag-pair
-	     mc/reverse-regions
-	     mc/skip-to-next-like-this
-	     mc/skip-to-previous-like-this
-	     mc/sort-regions
-	     mc/unmark-next-like-this
-	     mc/unmark-previous-like-this)
-  )
+  :bind
+  (("C-," . parinfer-toggle-mode))
+  :init
+  (progn
+    (setq parinfer-extensions
+          '(defaults       ; should be included.
+	     pretty-parens  ; different paren styles for different modes.
+	     evil           ; If you use Evil.
+	     lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
+	     paredit        ; Introduce some paredit commands.
+	     smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
+	     smart-yank))   ; Yank behavior depend on mode.
+    (add-hook 'clojure-mode-hook #'parinfer-mode)
+    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'common-lisp-mode-hook #'parinfer-mode)
+    (add-hook 'scheme-mode-hook #'parinfer-mode)
+    (add-hook 'lisp-mode-hook #'parinfer-mode)))
