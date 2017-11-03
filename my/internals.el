@@ -11,3 +11,10 @@
 (setq ido-everywhere t)
 (ido-mode 1)
 
+;; Keep customization mess out of init.el
+(setq custom-file (concat user-emacs-directory "_customize.el"))
+(load custom-file t)
+
+;; Show matching parens
+(show-paren-mode 1)
+(setq show-paren-style 'parenthesis)
