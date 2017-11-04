@@ -15,7 +15,8 @@
 ;; cider
 (use-package cider
   :ensure t
-  :pin melpa-stable)
+  :pin melpa-stable
+  :config (setq cider-repl-display-help-banner nil))
 
 ;; try packagaes without installing them
 (use-package try
@@ -34,7 +35,25 @@
     (setq gc-cons-threshold (* 20 (expt 2 20)) ; megabytes
           ido-use-faces nil))
   :config
-  (flx-ido-mode 1))
+   (flx-ido-mode 1))
+
+;; use projectile for better search and project management
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-global-mode)
+  (setq projectile-enable-caching t))
+
+;; goto a char on avy
+(use-package avy
+  :ensure t
+  :bind ("C-z" . avy-goto-char))
+
+
+;; let emacs help you
+(use-package which-key
+  :ensure t
+  :init (which-key-mode))
 
 ;; paredit
 (use-package paredit
@@ -50,8 +69,6 @@
     (setq parinfer-extensions
           '(defaults       ; should be included.
             pretty-parens  ; different paren styles for different modes.
-            evil           ; If you use Evil.
-            lispy          ; If you use Lispy. With this extension, you should install Lispy and do not enable lispy-mode directly.
             paredit        ; Introduce some paredit commands.
             smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
             smart-yank))   ; Yank behavior depend on mode.
