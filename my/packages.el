@@ -49,11 +49,30 @@
   :ensure t
   :bind ("C-z" . avy-goto-char))
 
-
 ;; let emacs help you
 (use-package which-key
   :ensure t
   :init (which-key-mode))
+
+;; color code parenthesis
+(use-package rainbow-delimiters
+  :ensure t
+  :config
+  (setq global-rainbow-delimiters-mode 1))
+
+;; make sure the indentation in fine with clojure and clojurescript 
+(use-package clojure-mode
+  :ensure t)
+
+;; load .graphql files gracefully
+(use-package graphql-mode
+  :ensure t)
+
+;; feel a little more at home with neotree
+(use-package neotree
+  :ensure t
+  :config
+  (global-set-key [f8] 'neotree-toggle))
 
 ;; paredit
 (use-package paredit
