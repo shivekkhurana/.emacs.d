@@ -42,7 +42,18 @@
   :ensure t
   :config
   (projectile-global-mode)
-  (setq projectile-enable-caching t))
+  (setq projectile-enable-caching t)
+  (setq projectile-globally-ignored-directories
+        (append '(
+                  "elpa/"
+		  )
+		projectile-globally-ignored-directories))
+  (setq projectile-globally-ignored-files
+	(append '(
+		  ".#*"
+		  )
+		projectile-globally-ignored-files)))
+      
 
 ;; goto a char on avy
 (use-package avy
@@ -57,42 +68,45 @@
 ;; color code parenthesis
 (use-package rainbow-delimiters
   :ensure t
-  :config
-  (setq global-rainbow-delimiters-mode 1))
+  :init
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 ;; make sure the indentation in fine with clojure and clojurescript 
 (use-package clojure-mode
-  :ensure t)
+ :ensure t)
 
 ;; load .graphql files gracefully
 (use-package graphql-mode
   :ensure t)
 
+;; Don't forget your past. Your roots are in the land of React and Node
+(use-package js2-mode
+  :config
+  (setq js2-basic-offset 2))
+
 ;; feel a little more at home with neotree
 (use-package neotree
   :ensure t
   :config
+  (set-face-attribute 'neo-file-link-face nil :foreground "white")
+  (set-face-attribute 'neo-dir-link-face nil :foreground "cyan")
   (global-set-key [f8] 'neotree-toggle))
 
 ;; paredit
 (use-package paredit
-  :ensure t)
-
-;; the almighty parinifer
-(use-package parinfer
-  :ensure t
-  :bind
-  (("C-," . parinfer-toggle-mode))
   :init
   (progn
-    (setq parinfer-extensions
-          '(defaults       ; should be included.
-            pretty-parens  ; different paren styles for different modes.
-            paredit        ; Introduce some paredit commands.
-            smart-tab      ; C-b & C-f jump positions and smart shift with tab & S-tab.
-            smart-yank))   ; Yank behavior depend on mode.
-    (add-hook 'clojure-mode-hook #'parinfer-mode)
-    (add-hook 'emacs-lisp-mode-hook #'parinfer-mode)
-    (add-hook 'common-lisp-mode-hook #'parinfer-mode)
-    (add-hook 'scheme-mode-hook #'parinfer-mode)
-    (add-hook 'lisp-mode-hook #'parinfer-mode)))
+    (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+    (add-hook 'clojure-mode-hook 'paredit-mode)
+    (add-hook 'clojurescript-mode-hook 'paredit-mode)
+    (add-hook 'clojurec-mode-hook 'paredit-mode)
+    (add-hook 'cider-repl-mode-hook 'paredit-mode)))
+
+;; hope that there will be a complete config for org-mode someday
+(use-package org
+  :mode (("\\.org$" . org-mode))
+  :ensure org-plus-contrib
+  :config
+  (progn
+    ;; config stuff
+    ))
