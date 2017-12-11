@@ -71,7 +71,7 @@
   :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-;; make sure the indentation in fine with clojure and clojurescript 
+;; make sure the indentation in fine with clojure and clojurescript
 (use-package clojure-mode
  :ensure t)
 
@@ -79,10 +79,40 @@
 (use-package graphql-mode
   :ensure t)
 
-;; Don't forget your past. Your roots are in the land of React and Node
-(use-package js2-mode
+;; edit js files while maintaining sanity
+(use-package web-mode
+  :mode (("\\.html\\'" . web-mode)
+	 ("\\.json\\'" . web-mode)
+	 ("\\.jsx?\\'" . web-mode))
+  :init
+  (setq web-mode-markup-indent-offset 2)
+  (setq web-mode-code-indent-offset 2)
+  (setq web-mode-attr-indent-offset 2)
+  (setq web-mode-content-types-alist '(("jsx" . "\\.js\\'")))
+  (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
+  (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil)))
+
+;; lint all the js
+(use-package flycheck
+  :ensure t
+  :defer t
+  :init
+  (progn
+    (global-flycheck-mode)
+    (add-hook 'flycheck-mode-hook (lambda ()
+				    (let* ((root (locate-dominating-file
+						  (or (buffer-file-name) default-directory)
+						  "node_modules"))
+					   (eslint (and root
+							(expand-file-name "node_modules/eslint/bin/eslint.js"
+									  root))))
+				      (when (and eslint (file-executable-p eslint))
+					(setq-local flycheck-javascript-eslint-executable eslint))))))
   :config
-  (setq js2-basic-offset 2))
+  (setq-default flycheck-disabled-checkers '(javascript-jshint))
+  (flycheck-add-mode 'javascript-eslint 'web-mode))
 
 ;; feel a little more at home with neotree
 (use-package neotree
@@ -110,3 +140,15 @@
   (progn
     ;; config stuff
     ))
+
+;; the good old monokai
+(use-package monokai-theme
+  :ensure t
+  :defer t
+  :init
+  (load-theme 'monokai t))
+
+(provide 'packages)
+;;; packages.el ends here
+
+

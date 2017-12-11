@@ -24,3 +24,9 @@
       `((".*" . ,temporary-file-directory)))
 (setq auto-save-file-name-transforms
       `((".*" ,temporary-file-directory t)))
+
+;; Turn off that annoying bell
+(setq ring-bell-function 'ignore)
+
+;; Make fonts prettier
+(set-face-attribute 'default nil :font "Menlo" :height 134)
