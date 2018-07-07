@@ -29,4 +29,10 @@
 (setq ring-bell-function 'ignore)
 
 ;; Make fonts prettier
-(set-face-attribute 'default nil :font "Menlo" :height 134)
+(set-face-attribute 'default nil :font "Monaco" :height 130)
+
+;; Show trailing spaces
+(setq-default show-trailing-whitespace t)
+
+;; Add local bins to exec-path
+(add-to-list 'exec-path "/usr/local/bin")

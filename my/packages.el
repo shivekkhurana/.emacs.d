@@ -6,7 +6,6 @@
 (add-to-list 'package-archives
       '("melpa-stable" . "https://stable.melpa.org/packages/"))
 
-
 ;; Bootstrap `use-package'
 (unless (package-installed-p 'use-package)
   (package-refresh-contents)
@@ -16,7 +15,10 @@
 (use-package cider
   :ensure t
   :pin melpa-stable
-  :config (setq cider-repl-display-help-banner nil))
+  :config
+  (setq cider-repl-display-help-banner nil)
+  (setq cider-auto-mode nil))
+
 
 ;; try packagaes without installing them
 (use-package try
@@ -45,15 +47,12 @@
   (setq projectile-enable-caching t)
   (setq projectile-globally-ignored-directories
         (append '(
-                  "elpa/"
-		  )
-		projectile-globally-ignored-directories))
-  (setq projectile-globally-ignored-files
-	(append '(
-		  ".#*"
-		  )
-		projectile-globally-ignored-files)))
-      
+                  "elpa/"))
+    projectile-globally-ignored-directories)
+  (setq projectile-globally-ignored-files)
+  (append '()
+      ".#*"
+    projectile-globally-ignored-files))
 
 ;; goto a char on avy
 (use-package avy
@@ -79,41 +78,6 @@
 (use-package graphql-mode
   :ensure t)
 
-;; edit js files while maintaining sanity
-(use-package web-mode
-  :mode (("\\.html\\'" . web-mode)
-	 ("\\.json\\'" . web-mode)
-	 ("\\.jsx?\\'" . web-mode))
-  :init
-  (setq web-mode-markup-indent-offset 2)
-  (setq web-mode-code-indent-offset 2)
-  (setq web-mode-attr-indent-offset 2)
-  (setq web-mode-content-types-alist '(("jsx" . "\\.js\\'")))
-  (add-to-list 'web-mode-indentation-params '("lineup-args" . nil))
-  (add-to-list 'web-mode-indentation-params '("lineup-calls" . nil))
-  (add-to-list 'web-mode-indentation-params '("lineup-concats" . nil))
-  (add-to-list 'web-mode-indentation-params '("lineup-ternary" . nil)))
-
-;; lint all the js
-(use-package flycheck
-  :ensure t
-  :defer t
-  :init
-  (progn
-    (global-flycheck-mode)
-    (add-hook 'flycheck-mode-hook (lambda ()
-				    (let* ((root (locate-dominating-file
-						  (or (buffer-file-name) default-directory)
-						  "node_modules"))
-					   (eslint (and root
-							(expand-file-name "node_modules/eslint/bin/eslint.js"
-									  root))))
-				      (when (and eslint (file-executable-p eslint))
-					(setq-local flycheck-javascript-eslint-executable eslint))))))
-  :config
-  (setq-default flycheck-disabled-checkers '(javascript-jshint))
-  (flycheck-add-mode 'javascript-eslint 'web-mode))
-
 ;; feel a little more at home with neotree
 (use-package neotree
   :ensure t
@@ -122,7 +86,16 @@
   (set-face-attribute 'neo-dir-link-face nil :foreground "cyan")
   (global-set-key [f8] 'neotree-toggle))
 
-;; paredit
+;; complete anything mode
+(use-package company
+  :ensure t
+  :pin melpa-stable
+  :init
+  (global-company-mode)
+  (setq company-begin-commands
+        '(self-insert-command org-self-insert-command orgtbl-self-insert-command c-scope-operator c-electric-colon c-electric-lt-gt c-electric-slash cljr-slash)))
+
+;; The almighty paredit
 (use-package paredit
   :init
   (progn
@@ -137,18 +110,18 @@
   :mode (("\\.org$" . org-mode))
   :ensure org-plus-contrib
   :config
-  (progn
-    ;; config stuff
-    ))
+  (progn))
 
-;; the good old monokai
-(use-package monokai-theme
+;; solarized-theme
+(use-package solarized-theme
   :ensure t
-  :defer t
-  :init
-  (load-theme 'monokai t))
+  :config
+  (setq solarized-distinct-fringe-background t)
+  (setq solarized-use-variable-pitch nil)
+  (setq solarized-scale-org-headlines nil)
+  (setq solarized-high-contrast-mode-line t)
+  (load-theme 'solarized-light t))
 
-(provide 'packages)
-;;; packages.el ends here
+
 
 
