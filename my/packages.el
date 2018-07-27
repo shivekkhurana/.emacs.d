@@ -14,6 +14,7 @@
 ;; cider
 (use-package cider
   :ensure t
+  :defer t
   :pin melpa-stable
   :config
   (setq cider-repl-display-help-banner nil)
@@ -22,16 +23,19 @@
 
 ;; try packagaes without installing them
 (use-package try
+  :defer t
   :ensure t)
 
 ;; show ido files vertically
 (use-package ido-vertical-mode
   :ensure t
+  :defer t
   :init (ido-vertical-mode 1))
 
 ;; fuzzy search like sublime using flx-ido
 (use-package flx-ido
   :ensure t
+  :defer t
   :init
   (progn
     (setq gc-cons-threshold (* 20 (expt 2 20)) ; megabytes
@@ -57,30 +61,36 @@
 ;; goto a char on avy
 (use-package avy
   :ensure t
+  :defer t
   :bind ("C-z" . avy-goto-char))
 
 ;; let emacs help you
 (use-package which-key
   :ensure t
+  :defer t
   :init (which-key-mode))
 
 ;; color code parenthesis
 (use-package rainbow-delimiters
   :ensure t
+  :defer t
   :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 ;; make sure the indentation in fine with clojure and clojurescript
 (use-package clojure-mode
- :ensure t)
+  :defer t
+  :ensure t)
 
 ;; load .graphql files gracefully
 (use-package graphql-mode
+  :defer t
   :ensure t)
 
 ;; feel a little more at home with neotree
 (use-package neotree
   :ensure t
+  :defer t
   :config
   (set-face-attribute 'neo-file-link-face nil :foreground "white")
   (set-face-attribute 'neo-dir-link-face nil :foreground "cyan")
@@ -89,6 +99,7 @@
 ;; complete anything mode
 (use-package company
   :ensure t
+  :defer t
   :pin melpa-stable
   :init
   (global-company-mode)
@@ -97,6 +108,7 @@
 
 ;; The almighty paredit
 (use-package paredit
+  :defer t
   :init
   (progn
     (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
@@ -107,6 +119,7 @@
 
 ;; hope that there will be a complete config for org-mode someday
 (use-package org
+  :defer t
   :mode (("\\.org$" . org-mode))
   :ensure org-plus-contrib
   :config
