@@ -16,6 +16,8 @@
   :ensure t
   :defer t
   :pin melpa-stable
+  :bind
+  ("C-c C-e" . cider-insert-last-sexp-in-repl)
   :config
   (setq cider-repl-display-help-banner nil)
   (setq cider-auto-mode nil))
@@ -90,7 +92,6 @@
 ;; feel a little more at home with neotree
 (use-package neotree
   :ensure t
-  :defer t
   :config
   (set-face-attribute 'neo-file-link-face nil :foreground "white")
   (set-face-attribute 'neo-dir-link-face nil :foreground "cyan")
@@ -125,6 +126,7 @@
   :config
   (progn))
 
+
 ;; solarized-theme
 (use-package solarized-theme
   :ensure t
@@ -134,7 +136,5 @@
   (setq solarized-scale-org-headlines nil)
   (setq solarized-high-contrast-mode-line t)
   (load-theme 'solarized-light t))
-
-
 
 
