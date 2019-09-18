@@ -16,8 +16,12 @@
   :ensure t
   :defer t
   :pin melpa-stable
-  :bind
-  ("C-c C-e" . cider-insert-last-sexp-in-repl)
+  :init
+  (progn
+    (add-hook 'clojure-mode-hook 'cider-mode)
+    (add-hook 'clojurescript-mode-hook 'cider-mode)
+    (add-hook 'clojurec-mode-hook 'cider-mode)
+    (add-hook 'cider-repl-mode-hook 'cider-mode))
   :config
   (setq cider-repl-display-help-banner nil)
   (setq cider-auto-mode nil))
@@ -127,6 +131,11 @@
   (progn))
 
 
+(use-package folding
+  :ensure t
+  :config
+  (folding-mode-add-find-file-hook))
+
 ;; solarized-theme
 (use-package solarized-theme
   :ensure t
@@ -136,5 +145,3 @@
   (setq solarized-scale-org-headlines nil)
   (setq solarized-high-contrast-mode-line t)
   (load-theme 'solarized-light t))
-
-
