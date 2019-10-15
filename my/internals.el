@@ -29,7 +29,7 @@
 (setq ring-bell-function 'ignore)
 
 ;; Make fonts prettier
-(set-face-attribute 'default nil :font "Monaco" :height 130)
+(set-face-attribute 'default nil :font "Monaco" :height 144)
 
 ;; Show trailing spaces
 (setq-default show-trailing-whitespace t)
