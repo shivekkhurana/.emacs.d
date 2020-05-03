@@ -17,7 +17,7 @@
 ;; cider
 (use-package cider
   :ensure t
-  ;;:defer t
+  :defer t
   :pin melpa-stable
   :init
   (progn
@@ -28,6 +28,13 @@
   :config
   (setq cider-repl-display-help-banner nil)
   (setq cider-auto-mode nil))
+
+;; inf-clojure for babashaka repl
+(use-package inf-clojure
+  :ensure t
+  :defer t
+  :config
+  (add-hook 'clojurescript-mode-hook 'inf-clojure-minor-mode))
 
 ;; show ido files vertically
 (use-package ido-vertical-mode
@@ -137,17 +144,21 @@
             (lambda ()
               (push '("function" . ?ƒ) prettify-symbols-alist)))
 
-  (add-to-list 'auto-mode-alist '("\\.js$" . js2-mode)))
+  (add-to-list 'auto-mode-alist '("\\.[j|t]s$" . js2-mode)))
 
 
 ;; solarized-theme
-(use-package solarized-theme
-  :ensure t
-  :config
-  (setq solarized-distinct-fringe-background t)
-  (setq solarized-use-variable-pitch nil)
-  (setq solarized-scale-org-headlines nil)
-  (setq solarized-high-contrast-mode-line t)
-  (load-theme 'solarized-light t))
+;; (use-package solarized-theme
+;;   :ensure t
+;;   :config
+;;   (setq solarized-distinct-fringe-background t)
+;;   (setq solarized-use-variable-pitch nil)
+;;   (setq solarized-scale-org-headlines nil)
+;;   (setq solarized-high-contrast-mode-line t)
+;;   (load-theme 'solarized-light t))
+
+;; dracula theme
+(use-package dracula-theme
+  :ensure t)
 
 ;;; packages.el ends here
