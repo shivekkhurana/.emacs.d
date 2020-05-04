@@ -1,7 +1,5 @@
 (require 'package)
 
-(package-initialize)
-
 (setq package-enable-at-startup nil)
 (add-to-list 'package-archives
 	     '("melpa" . "https://melpa.org/packages/"))
@@ -29,12 +27,6 @@
   (setq cider-repl-display-help-banner nil)
   (setq cider-auto-mode nil))
 
-;; inf-clojure for babashaka repl
-(use-package inf-clojure
-  :ensure t
-  :defer t
-  :config
-  (add-hook 'clojurescript-mode-hook 'inf-clojure-minor-mode))
 
 ;; show ido files vertically
 (use-package ido-vertical-mode
@@ -127,7 +119,6 @@
     (add-hook 'clojurec-mode-hook 'paredit-mode)
     (add-hook 'cider-repl-mode-hook 'paredit-mode)))
 
-
 ;; remove personal dependance on sublime to work on js projects
 (use-package js2-mode
   :ensure t
@@ -147,18 +138,42 @@
   (add-to-list 'auto-mode-alist '("\\.[j|t]s$" . js2-mode)))
 
 
-;; solarized-theme
-;; (use-package solarized-theme
-;;   :ensure t
-;;   :config
-;;   (setq solarized-distinct-fringe-background t)
-;;   (setq solarized-use-variable-pitch nil)
-;;   (setq solarized-scale-org-headlines nil)
-;;   (setq solarized-high-contrast-mode-line t)
-;;   (load-theme 'solarized-light t))
-
 ;; dracula theme
 (use-package dracula-theme
   :ensure t)
+
+
+;; Emacs is taking over my life
+;; Non linear note taking using Org-Roam
+(use-package org-roam
+  :after org
+  :hook (org-mode . org-roam-mode)
+  :ensure t
+  :config
+  (setq org-roam-directory "~/Desktop/roam/")
+  (setq org-roam-buffer-width 0.2)
+  (setq org-roam-completion-system 'ido)
+  :bind
+  ("C-c n l" . org-roam)
+  ;; ("C-c n t" . org-roam-dailies-today) ;; I use org-journal for dailies
+  ("C-c n f" . org-roam-find-file)
+  ("C-c n i" . org-roam-insert)
+  ("C-c n g" . org-roam-graph))
+
+(use-package org-journal
+  :bind
+  ("C-c n j" . org-journal-new-entry)
+  :ensure t
+  :config
+  (setq org-journal-date-prefix "#+TITLE: "
+	org-journal-file-format "%Y-%m-%d.org"
+	org-journal-dir "~/Desktop/roam/"
+	org-journal-date-format "%A, %B %d, %Y"))
+
+
+;; (use-package company-org-roam
+;;   :straight (:host github :repo "jethrokuan/company-org-roam")
+;;   :config
+;;   (push 'company-org-roam company-backends))
 
 ;;; packages.el ends here
