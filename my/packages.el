@@ -3,25 +3,33 @@
 ;;; Commentary:
 
 ;;; Code:
-(require 'package)
 
-(setq package-enable-at-startup nil)
-(add-to-list 'package-archives
-	     '("melpa" . "https://melpa.org/packages/"))
-(add-to-list 'package-archives
-	     '("melpa-stable" . "https://stable.melpa.org/packages/") t)
+;; Bootstrap `straight'
+;; The plan is to eventually get rid of use-package
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+
+;;;;  Effectively replace use-package with straight-use-package
+;;; https://github.com/raxod502/straight.el/blob/develop/README.md#integration-with-use-package
+(straight-use-package 'use-package)
+(defvar straight-use-package-by-default)
+(setq straight-use-package-by-default t)
 
 
-;; Bootstrap `use-package'
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
 
 ;; cider
 (use-package cider
-  :ensure t
   :defer t
-  :pin melpa-stable
   :init
   (progn
     (add-hook 'clojure-mode-hook 'cider-mode)
@@ -35,13 +43,11 @@
 
 ;; show ido files vertically
 (use-package ido-vertical-mode
-  :ensure t
   :defer t
   :init (ido-vertical-mode 1))
 
 ;; fuzzy search like sublime using flx-ido
 (use-package flx-ido
-  :ensure t
   :defer t
   :init
   (progn
@@ -52,7 +58,6 @@
 
 ;; use projectile for better search and project management
 (use-package projectile
-  :ensure t
   :config
   (projectile-mode +1)
   (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
@@ -66,29 +71,24 @@
 
 ;; let emacs help you
 (use-package which-key
-  :ensure t
   :defer t
   :init (which-key-mode))
 
 ;; color code parenthesis
 (use-package rainbow-delimiters
-  :ensure t
   :defer t
   :init
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 (use-package flycheck
-  :ensure t
   :init (global-flycheck-mode))
 
 ;; First install the package, then install the checker as soon as `clojure-mode' is loaded
-(use-package flycheck-clj-kondo
-  :ensure t)
+(use-package flycheck-clj-kondo)
 
 ;; make sure the indentation in fine with clojure and clojurescript
 (use-package clojure-mode
   :defer t
-  :ensure t
   :config
   (require 'flycheck-clj-kondo))
 
@@ -99,15 +99,12 @@
 
 ;; feel a little more at home with neotree
 (use-package neotree
-  :ensure t
   :config
   (global-set-key [f8] 'neotree-toggle))
 
 ;; complete anything mode
 (use-package company
-  :ensure t
   :defer t
-  :pin melpa-stable
   :init
   (global-company-mode)
   (setq company-begin-commands
@@ -126,7 +123,6 @@
 
 ;; remove personal dependance on sublime to work on js projects
 (use-package js2-mode
-  :ensure t
   :init
   (setq-default js2-basic-indent 2
                 js2-basic-offset 2
@@ -153,11 +149,14 @@
   )
 
 ;; dracula theme
-(use-package dracula-theme
-  :ensure t)
+(use-package dracula-theme)
+
+;; joining the evil side
+(use-package evil
+  :straight t
+  :demand t
+  :config
+  (evil-mode 1))
+
 
 ;;; packages.el ends here
-
-
-
-

@@ -8,3 +8,4 @@ projectile*
 _customize.el
 network-security.data
 *.cache
+straight/

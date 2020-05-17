@@ -1,4 +1,9 @@
-;; Remove startup screen
+;;; package --- internals.el
+
+;;; Commentary:
+;;; Remove startup screen
+
+;;; Code:
 (setq inhibit-startup-message t)
 
 ;; Remove scroll bar, menu bar and tool bar

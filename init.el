@@ -5,7 +5,6 @@
 
 ;;; Code:
 ;; Let the show begin
-(package-initialize)
 
 (load "~/.emacs.d/my/internals.el")
 (load "~/.emacs.d/my/packages.el")
