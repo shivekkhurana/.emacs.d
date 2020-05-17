@@ -36,3 +36,7 @@
 
 ;; Add local bins to exec-path
 (add-to-list 'exec-path "/usr/local/bin")
+
+(provide 'internals)
+
+;;; internals.el ends here

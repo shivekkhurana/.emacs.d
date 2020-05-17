@@ -142,20 +142,19 @@
 
   (add-to-list 'auto-mode-alist '("\\.[j|t]s$" . js2-mode)))
 
+(use-package emmet-mode
+  :commands emmet-mode
+  :init
+  (setq emmet-indentation 2)
+  ;;(setq emmet-move-cursor-between-quotes t)
+  :config
+  (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
+  (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
+  )
+
 ;; dracula theme
 (use-package dracula-theme
   :ensure t)
-
-
-(use-package org-journal
-  :bind
-  ("C-c n j" . org-journal-new-entry)
-  :custom
-  (org-journal-date-prefix "#+TITLE: ")
-  (org-journal-file-format "%Y-%m-%d.org")
-  (org-journal-dir "~/WIP/TimeMachine/")
-  (org-journal-find-file 'find-file)
-  (org-journal-date-format "%A, %d %B %Y"))
 
 ;;; packages.el ends here
 
