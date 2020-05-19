@@ -158,5 +158,18 @@
   :config
   (evil-mode 1))
 
+;; eval without going to the very end
+(use-package evil-adjust
+  :straight (evil-adjust :type git :host github :repo "troyp/evil-adjust"))
+
+(use-package darkroom
+  :straight (darkroom :type git :host github :repo "joaotavora/darkroom")
+  :config
+  (global-set-key [f1] 'darkroom-mode))
+
+;; (use-package visual-fill-column
+;;   :straight (visual-fill-column :type git :host github :repo "joostkremers/visual-fill-column")
+;;   :config
+;;   (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
 
 ;;; packages.el ends here

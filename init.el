@@ -10,10 +10,5 @@
 (load "~/.emacs.d/my/packages.el")
 (load "~/.emacs.d/my/org.el")
 
-;; https://github.com/joaotavora/darkroom/blob/master/darkroom.el
-(load "~/.emacs.d/my/darkroom.el")
-(global-set-key [f1] 'darkroom-mode)
-
-
 ;;; init.el ends here
 
