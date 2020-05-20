@@ -25,8 +25,6 @@
 (defvar straight-use-package-by-default)
 (setq straight-use-package-by-default t)
 
-
-
 ;; cider
 (use-package cider
   :defer t
@@ -46,28 +44,34 @@
   :defer t
   :init (ido-vertical-mode 1))
 
-;; fuzzy search like sublime using flx-ido
-(use-package flx-ido
-  :defer t
-  :init
-  (progn
-    (setq gc-cons-threshold (* 20 (expt 2 20)) ; megabytes
-          ido-use-faces nil))
-  :config
-   (flx-ido-mode 1))
-
 ;; use projectile for better search and project management
 (use-package projectile
   :config
   (projectile-mode +1)
-  (define-key projectile-mode-map (kbd "s-p") 'projectile-command-map)
   (define-key projectile-mode-map (kbd "C-c p") 'projectile-command-map)
+  (setq projectile-completion-system 'ivy)
   (setq projectile-globally-ignored-directories
         (append '("elpa/") projectile-globally-ignored-directories))
   (setq projectile-globally-ignored-directories
         (append '(".shadow-cljs/*") projectile-globally-ignored-directories))
   (setq projectile-globally-ignored-files
   	(append '() ".#*" projectile-globally-ignored-files)))
+
+;; https://www.reddit.com/r/emacs/comments/6xc0im/ivy_counsel_swiper_company_helm_smex_and_evil/
+(use-package ivy
+  :ensure t
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-height 20)                   ; set height of the ivy window
+  (setq ivy-count-format "%d/%d ")     ; count format, from the ivy help page
+  (setq ivy-display-style 'fancy)
+  (setq enable-recursive-minibuffers t))
+
+(use-package swiper
+  :ensure t
+  :config
+  (global-set-key "\C-s" 'swiper))
 
 ;; let emacs help you
 (use-package which-key
@@ -121,23 +125,6 @@
     (add-hook 'clojurec-mode-hook 'paredit-mode)
     (add-hook 'cider-repl-mode-hook 'paredit-mode)))
 
-;; remove personal dependance on sublime to work on js projects
-(use-package js2-mode
-  :init
-  (setq-default js2-basic-indent 2
-                js2-basic-offset 2
-                js2-auto-indent-p t
-                js2-cleanup-whitespace t
-                js2-enter-indents-newline t
-                js2-indent-on-enter-key t
-                js2-global-externs (list "window" "module" "require" "buster" "sinon" "assert" "refute" "setTimeout" "clearTimeout" "setInterval" "clearInterval" "location" "__dirname" "console" "JSON" "jQuery" "$"))
-
-  (add-hook 'js2-mode-hook
-            (lambda ()
-              (push '("function" . ?ƒ) prettify-symbols-alist)))
-
-  (add-to-list 'auto-mode-alist '("\\.[j|t]s$" . js2-mode)))
-
 (use-package emmet-mode
   :commands emmet-mode
   :init
@@ -150,6 +137,12 @@
 
 ;; dracula theme
 (use-package dracula-theme)
+
+;; Highlight current line
+(defvar hl-line-face)
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#1a1b22")
+(set-face-foreground 'highlight nil)
 
 ;; joining the evil side
 (use-package evil
@@ -167,9 +160,17 @@
   :config
   (global-set-key [f1] 'darkroom-mode))
 
-;; (use-package visual-fill-column
-;;   :straight (visual-fill-column :type git :host github :repo "joostkremers/visual-fill-column")
-;;   :config
-;;   (add-hook 'visual-line-mode-hook #'visual-fill-column-mode))
+;; beautiful powerline
+(use-package powerline-evil
+  :straight (powerline-evil :type git :host github :repo "johnson-christopher/powerline-evil")
+  :init
+  (powerline-evil-center-color-theme))
 
+;; magit
+(use-package magit
+  :ensure t
+  :bind (("C-x g" . magit-status)))
+
+(use-package yaml-mode
+  :ensure t)
 ;;; packages.el ends here
