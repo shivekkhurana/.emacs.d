@@ -5,7 +5,6 @@
 ;;; Code:
 
 ;; Bootstrap `straight'
-;; The plan is to eventually get rid of use-package
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -173,4 +172,5 @@
 
 (use-package yaml-mode
   :ensure t)
+
 ;;; packages.el ends here

@@ -42,6 +42,9 @@
 ;; Add local bins to exec-path
 (add-to-list 'exec-path "/usr/local/bin")
 
+;; Show line numbers
+(global-display-line-numbers-mode)
+
 (provide 'internals)
 
 ;;; internals.el ends here

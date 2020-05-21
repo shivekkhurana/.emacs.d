@@ -12,7 +12,6 @@
       org-startup-folded 'content
       org-tags-column 0)
 
-(add-hook 'org-mode-hook 'turn-off-filladapt-mode)
 (add-hook 'org-mode-hook 'visual-line-mode) ;; this trys to intelligently wrap line at word
 
 
