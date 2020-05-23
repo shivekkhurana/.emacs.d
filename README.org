@@ -5,7 +5,9 @@
 A few years ago, a co-worker adviced to get started with vanilla Emacs. It made a lot of sense because I was writing Clojure.
 Emacs has now become my goto editor. I now understand the phrase, "Emacs has taken over my life".
 
-[[./screenshots/cover.png][Cover]]
+#+CAPTION: Cover
+#+NAME:   fig:cover
+[[./screenshots/cover.png]]
 
 This repo is my version of Emacs:
 - It's mostly stable but a work in progress
@@ -21,21 +23,31 @@ This repo is my version of Emacs:
 Any directory with a ~.git~ folder is considered as a project. To open a project, just open a file in that directory using ~Cx Cf~. 
 The project will then be cached and accessible via ~Cc Cp~.
 
-[[./screenshots/projectile.gif][Projectile]]
+
+#+CAPTION: Projectile
+#+NAME:   fig:projectile
+[[./screenshots/projectile.gif]]
 
 ** Sidebar using Neotree
 Sidebar is bound to ~f8~ key. It is useful while trying to understand the structure of a new project.
 
-[[./screenshots/neotree.gif][Neotree]]
+#+CAPTION: Neotree
+#+NAME:   fig:neotree
+[[./screenshots/neotree.gif]]
 
 ** Focus mode using darkroom
 Bound to ~f1~, focus mode helps with distraction free writing.
 
-[[./screenshots/darkroom.gif][Darkroom]]
+#+CAPTION: Darkroom
+#+NAME:   fig:Darkroom
+[[./screenshots/darkroom.gif]]
 
 ** Search using Swiper
 Swiper is gem bound to ~Cs~. It makes the native search functionality 10x more awesome.
-[[./screenshots/swiper.gif][Swiper]]
+
+#+CAPTION: Swiper
+#+NAME:   fig:Swiper
+[[./screenshots/swiper.gif]]
 
 * Opinionated Features
 - Straight.el for package management
