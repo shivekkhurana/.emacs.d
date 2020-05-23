@@ -126,6 +126,7 @@
 
 (use-package emmet-mode
   :commands emmet-mode
+  :defer t
   :init
   (setq emmet-indentation 2)
   ;;(setq emmet-move-cursor-between-quotes t)
@@ -146,13 +147,15 @@
 ;; joining the evil side
 (use-package evil
   :straight t
-  :demand t
   :config
   (evil-mode 1))
 
 ;; eval without going to the very end
 (use-package evil-adjust
-  :straight (evil-adjust :type git :host github :repo "troyp/evil-adjust"))
+  :straight (evil-adjust :type git :host github :repo "troyp/evil-adjust")
+  :init
+  ;; TODO : This doesn't seem to work
+  (evil-adjust))
 
 (use-package darkroom
   :straight (darkroom :type git :host github :repo "joaotavora/darkroom")
@@ -170,7 +173,54 @@
   :ensure t
   :bind (("C-x g" . magit-status)))
 
+;; you can't escape from yaml
 (use-package yaml-mode
+  :defer t
   :ensure t)
+
+;; Org Mode
+;;; Setup to make org mode experience more pleasant
+;;; There is a lot more juice here https://github.com/jezcope/dotfiles/blob/master/emacs.d/init-org.org
+(defvar org-startup-indented)
+(defvar org-startup-folded)
+(defvar org-tags-column)
+(setq org-startup-indented t ;; this helps with indented headline
+      org-startup-folded 'content
+      org-tags-column 0)
+
+(add-hook 'org-mode-hook 'visual-line-mode) ;; this trys to intelligently wrap line at word
+
+;; Activation
+;; https://orgmode.org/manual/Activation.html#Activation
+
+;; I don't really understand org-store-link
+;; (global-set-key (kbd "C-c l") 'org-store-link)
+(global-set-key (kbd "C-c a") 'org-agenda)
+(global-set-key (kbd "C-c c") 'org-capture)
+
+;; Agenda
+(defvar org-agenda-files)
+(setq org-agenda-files (list "~/WIP/TimeMachine"
+                             ;;"~/org/school.org"
+))
+
+
+(use-package org-journal
+  :bind
+  ("C-c n j" . org-journal-new-entry)
+  :custom
+  (org-journal-date-prefix "#+TITLE: ")
+  (org-journal-file-format "%Y-%m-%d.org")
+  (org-journal-dir "~/WIP/TimeMachine/")
+  (org-journal-find-file 'find-file)
+  (org-journal-date-format "%A, %d %B %Y"))
+
+(use-package org-bullets
+  :commands org-bullets-mode
+  :init
+  (add-hook 'org-mode-hook 'org-bullets-mode)
+  (setq org-bullets-bullet-list '("⌁")))
+
+(provide 'packages)
 
 ;;; packages.el ends here

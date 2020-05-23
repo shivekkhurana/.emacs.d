@@ -1,0 +1,67 @@
+#+TITLE: The software that transcends time
+#+AUTHOR: Shivek Khurana
+
+
+A few years ago, a co-worker adviced to get started with vanilla Emacs. It made a lot of sense because I was writing Clojure.
+Emacs has now become my goto editor. I now understand the phrase, "Emacs has taken over my life".
+
+[[./screenshots/cover.png][Cover]]
+
+This repo is my version of Emacs:
+- It's mostly stable but a work in progress
+- It'll probably always be like that
+- Is very opinionated
+- Is particularly suited to Clojure development
+- Introduces minimal custom shortcuts
+- Is on the evil-side due to objective reasons
+
+* Key Features
+
+** Project management using Projectile
+Any directory with a ~.git~ folder is considered as a project. To open a project, just open a file in that directory using ~Cx Cf~. 
+The project will then be cached and accessible via ~Cc Cp~.
+
+[[./screenshots/projectile.gif][Projectile]]
+
+** Sidebar using Neotree
+Sidebar is bound to ~f8~ key. It is useful while trying to understand the structure of a new project.
+
+[[./screenshots/neotree.gif][Neotree]]
+
+** Focus mode using darkroom
+Bound to ~f1~, focus mode helps with distraction free writing.
+
+[[./screenshots/darkroom.gif][Darkroom]]
+
+** Search using Swiper
+Swiper is gem bound to ~Cs~. It makes the native search functionality 10x more awesome.
+[[./screenshots/swiper.gif][Swiper]]
+
+* Opinionated Features
+- Straight.el for package management
+- Powerline
+- Dracula theme
+- Org Journal for notes
+
+* Things that can be improved
+- Startup time
+- Documentation
+
+
+* Using this repo
+In my early days, Github helped me learn from various public configurations. This config is designed to be barely vanilla.
+It's best consumed by readin the source code and taking parts that interest you, or by reading my notes about how I use it.
+
+[[./notes.org][Notes]]
+
+The notes are not written in a publication form. You might find occasional typos and incomplete ideas, but should be helpful in general.
+
+* Legal
+Open sourced under the MIT License.
+Copyright 2018 Shivek Khurana
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+

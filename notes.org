@@ -1,0 +1,138 @@
+#+TITLE: My humble attempt to learn the software that trancends time
+
+* Emacs
+** Commands
+|------------------------------------------+---------------------------|
+| Title                                    | Command                   |
+|------------------------------------------+---------------------------|
+| Duplicate a line                         | C-a C-Space C-e M-w Cmd-v |
+| Emmet Auto Complete                      | C-j                       |
+| Transpose character                      | C-t                       |
+| Delete word from cursor to start of word | C-Backspace               |
+| Enter/ Exit Darkroom                     | C-c d                     |
+
+** Official docs: https://www.gnu.org/software/emacs/manual/html_node/emacs/index.html
+** Unofficial docs, might be better than official ones
+*** https://tuhdo.github.io/ :helm:
+** DONE Setup Straight.el ?
+I have started looking into elisp seriously. Might be helpful to pull packages directly from Github
+https://github.crookster.org/switching-to-straight.el-from-emacs-26-builtin-package.el/
+** DONE Key bindings
+*** I want to learn how to do move, copy, paste, and replace operations. Most of my time as a developer is spent on modifying text. I think I should be good at it
+**** write a blog post because the best way to learn is to teach
+**** DONE Join the evil side? Let's do it.
+***** Pros
+****** With vim, my left hand will be at more ease since I don't need to press C- for everything
+***** Cons
+****** Duplicating lines
+******* It' 5 keys in emacs: https://stackoverflow.com/questions/88399/how-do-i-duplicate-a-whole-line-in-emacs
+******* 3 letters in vim: https://www.vimfromscratch.com/articles/how-to-copy-and-paste-a-line-in-vim/
+** TODO Setup Literate Programming for emacs.d?
+** TODO Deft mode for searching the notes easily
+*** https://github.com/jrblevin/deft
+** DONE Setup helm mode - Settled on swiper instead
+*** https://github.com/emacs-helm/helm
+** TODO Setup lsp mode
+*** https://github.com/snoe/clojure-lsp
+*** Working config -> https://github.com/clojure-emacs/cider/issues/2747
+** DONE Setup ivy mode
+*** Ivy is a replacement for ido and isearch
+*** https://www.youtube.com/watch?v=VvnJQpTFVDc
+**** The fact you can see all isearch candidates on the same window is pretty cool.
+**** I'm sure there is more to this package
+** TODO How does emacs work under the hood?
+Like org mode renders something but the actual typing is different. How is emacs able to handle this?
+What is this concept called?
+
+* Org Mode
+** DONE Learn how to go into zen mode, ie. gutters on both ends
+*** This looks promising https://github.com/rnkn/olivetti
+*** This is also an option https://github.com/joaotavora/darkroom
+*** DONE Chose darkroom, need to bind switching to a shortcut
+**** Bound switching to darkroom to f1
+**** DONE Move darkroom to straight.el
+** DONE How to add metadata like date to specific headings?
+:PROPERTIES:
+:foo:      bar
+:END:
+*** Properties are added using the :PROPERTIES: key
+*** Properties can be added to any headin
+*** Docs: https://orgmode.org/guide/Properties.html
+** DONE How to set custom fonts for org mode?
+:PROPERTIES:
+:completed_on: <2020-05-15 Fri 08:20>
+:END:
+*** https://zzamboni.org/post/beautifying-org-mode-in-emacs/
+*** https://www.reddit.com/r/emacs/comments/9ksr43/set_different_fonts_in_org_mode/
+*** Kinda done, but I realized that I like mononspaced color font
+** TODO Add auto ids for headings
+*** https://writequit.org/articles/emacs-org-mode-generate-ids.html
+*** Auto ids will help you generate a graph in future
+*** But since org mode can be easily parse, can't you just add ids later?
+*** Well my friend, ids now will help you create roam like links
+** TODO Try to figure out how agenda works
+*** I have multiple todos in this TimeMachine folder
+*** Learn how to enter Titles, Tags, and other metadata, using short cuts
+*** My todos dont get metadata
+*** Explore org as an inspiration to write the z-protocol
+** TODO You'll probably need to Read the manual https://orgmode.org/manual/index.html
+*** And while you are at it, maybe create blog posts so it makes learning for others easy
+** TODO How to get images in org mode?
+*** https://orgmode.org/manual/Images.html
+** TODO How to add references?
+** TODO How to convert a heading to a file?
+*** Sometime I might write something, like in my journal, that deserves more attention. How do I convert that into a file?
+** TODO How to generate table of contents?
+** Make a personal guide to writing org docs
+*** I want to ultimately publish everything here as a second brain
+*** Find a way to handle private files and sections
+*** Maybe start adding an id to all headings so it makes it easy to add internal links
+** Making an item jump from one column to other
+*** https://emacs.stackexchange.com/questions/21967/moving-one-item-in-org-table-from-col-1-to-col-2-problem
+#+begin_quote
+I solved it by using narrowing, just narrow the table to the single row with ~C-x n e~ and apply ~M-<Right>~ and then widen with ~C-x n w~.
+#+end_quote
+** Commands map
+|-------------------------------------+-----------+---------------------------------------------|
+| Task                                | Command   | Notes                                       |
+|-------------------------------------+-----------+---------------------------------------------|
+| Convert text to heading and back    | C-c *     |                                             |
+| Add tags                            | C-c C-q   | File level tags are added using #:FILETAGS: |
+| Add time                            | C-u C-c . |                                             |
+| Cycle Todo Status                   | C-c C-t   |                                             |
+| View Agenda                         | C-a       |                                             |
+| Export                              | C-c C-e   |                                             |
+| Add property                        | C-c C-x p | With cursor on heading                      |
+| Delete property                     | C-c C-c d | With cursor on PROPERTIES                   |
+| Add link                            | C-c C-l   |                                             |
+| Add structure from template         | C-c C-,   | Add quotes, titles etc                      |
+| Focus on on item (heading, row, etc | C-c n e   |                                             |
+| Get out of focus mode               | C-c n w   |                                             |
+|-------------------------------------+-----------+---------------------------------------------|
+
+* Darkroom
+** Adds gutters to both sides
+#+begin_src elisp
+(define-key map (kbd "C-M-+") 'darkroom-increase-margins)
+(define-key map (kbd "C-M--") 'darkroom-decrease-margins)
+#+end_src
+** Use f1 to go in and out of darkroom mode
+
+* Evil mode
+** https://github.com/noctuid/evil-guide/blob/master/README.org
+*** There is too much info here, relevant if you want to learn the internals, but it's not a getting started tutorial
+*** This might be good if you want to become an evil hacker but it doesn't make sense for beginners
+** https://danielmiessler.com/study/vim/
+#+begin_quote
+There are dozens of Vim references online, but most of them either go ninja straight away, or start basic and don't go much deeper.
+#+end_quote
+
+** Commands Map
+|-----------------------+---------------------+---------------------------------------------------|
+| Task                  | Command             | Notes                                             |
+|-----------------------+---------------------+---------------------------------------------------|
+| Delete a line         | dd                  |                                                   |
+| Add a newline         | 2o-esc              | 2 could be any number                             |
+| Delete a char         | x                   |                                                   |
+| Find and replace text | :1,10s/find/replace | 1 is start line, 10 is end line, $ for end of doc |
+| Copy a line           | yy                  |                                                   |
