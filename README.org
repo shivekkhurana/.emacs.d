@@ -26,7 +26,7 @@ The project will then be cached and accessible via ~Cc Cp~.
 
 #+CAPTION: Projectile
 #+NAME:   fig:projectile
-[[./screenshots/projectile.gif]]
+[[./screenshots/screen-projectile.gif]]
 
 ** Sidebar using Neotree
 Sidebar is bound to ~f8~ key. It is useful while trying to understand the structure of a new project.
