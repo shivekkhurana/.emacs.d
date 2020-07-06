@@ -146,17 +146,12 @@
 
 ;; joining the evil side
 (use-package evil
-  :straight t
   :config
-  (evil-mode 1))
+  (evil-mode t)
+  (setq evil-move-beyond-eol t)
+  (setq evil-move-cursor-back nil))
 
-;; eval without going to the very end
-(use-package evil-adjust
-  :straight (evil-adjust :type git :host github :repo "troyp/evil-adjust")
-  :init
-  ;; TODO : This doesn't seem to work
-  (evil-adjust))
-
+;; Writing Mode
 (use-package darkroom
   :straight (darkroom :type git :host github :repo "joaotavora/darkroom")
   :config
@@ -178,6 +173,31 @@
   :defer t
   :ensure t)
 
+;; make plain markdown pretty
+(use-package markdown-mode
+  :straight (markdown-mode :type git :host github :repo "jrblevin/markdown-mode")
+  :mode (("README\\.md\\'" . gfm-mode)
+         ("\\.md\\'" . markdown-mode)
+         ("\\.markdown\\'" . markdown-mode))
+  :init (setq markdown-command "multimarkdown"))
+
+;; kill typos
+
+;; tell emacs to use aspell instead of ispell
+;; https://stackoverflow.com/questions/17126951/emacs-cannot-find-flyspell-ispell
+(defvar ispell-program-name)
+(setq ispell-program-name "/usr/local/bin/aspell")
+
+(defvar flyspell-mode-map)
+(use-package flyspell-correct
+  :after flyspell
+  :bind (:map flyspell-mode-map ("C-;" . flyspell-correct-wrapper)))
+
+(use-package flyspell-correct-ivy
+  :after flyspell-correct)
+
+(add-hook 'flyspell-mode-hook #'flyspell-correct-auto-mode)
+
 ;; Org Mode
 ;;; Setup to make org mode experience more pleasant
 ;;; There is a lot more juice here https://github.com/jezcope/dotfiles/blob/master/emacs.d/init-org.org
@@ -189,12 +209,12 @@
       org-tags-column 0)
 
 (add-hook 'org-mode-hook 'visual-line-mode) ;; this trys to intelligently wrap line at word
-
+(add-hook 'org-mode-hook 'turn-on-flyspell) ;; turn on flyspell in org
 ;; Activation
 ;; https://orgmode.org/manual/Activation.html#Activation
 
 ;; I don't really understand org-store-link
-;; (global-set-key (kbd "C-c l") 'org-store-link)
+;; global-set-key (kbd "C-c l") 'org-store-link)
 (global-set-key (kbd "C-c a") 'org-agenda)
 (global-set-key (kbd "C-c c") 'org-capture)
 
@@ -220,6 +240,27 @@
   :init
   (add-hook 'org-mode-hook 'org-bullets-mode)
   (setq org-bullets-bullet-list '("⌁")))
+
+;; Typescript
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (flycheck-mode +1)
+  (setq flycheck-check-syntax-automatically '(save mode-enabled))
+  (eldoc-mode +1)
+  (tide-hl-identifier-mode +1)
+  (company-mode +1))
+
+(use-package tide
+  :config
+  (add-hook 'before-save-hook 'tide-format-before-save)
+  (add-hook 'typescript-mode-hook #'setup-tide-mode)
+  (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
+  (add-hook 'web-mode-hook
+	    (lambda ()
+	      (when (string-equal "tsx" (file-name-extension buffer-file-name))
+		(setup-tide-mode))))
+  (flycheck-add-mode 'typescript-tslint 'web-mode))
 
 (provide 'packages)
 
