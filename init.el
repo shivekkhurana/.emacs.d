@@ -1,5 +1,6 @@
 ;;; package --- Init Emacs
 ;;; Commentary:
+
 ;;; Author - Shivek Khurana
 ;;; Emacs is taking over my life
 

@@ -54,6 +54,17 @@
 ;; https://stackoverflow.com/questions/4177929/how-to-change-the-indentation-width-in-emacs-javascript-mode
 (setq js-indent-level 2)
 
+;; need this setting for emacs 27
+;; https://emacs.stackexchange.com/questions/48365/custom-theme-set-faces-does-not-work-in-emacs-27
+(setq custom--inhibit-theme-enable nil)
+
+;; Highlight current line
+(defvar hl-line-face)
+(global-hl-line-mode 1)
+(set-face-background 'hl-line "#1a1b22")
+(set-face-foreground 'highlight nil)
+
+
 (provide 'internals)
 
 ;;; internals.el ends here
