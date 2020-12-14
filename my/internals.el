@@ -34,6 +34,10 @@
 (setq ring-bell-function 'ignore)
 
 ;; Make fonts prettier
+;; height config
+;; 128 for code
+;; 200 for presentations
+;; 240 for screencasts
 (set-face-attribute 'default nil :font "Monaco" :height 128)
 
 ;; Show trailing spaces
@@ -44,6 +48,11 @@
 
 ;; Show line numbers
 (global-display-line-numbers-mode)
+
+
+;; Default javascript modes overwrides
+;; https://stackoverflow.com/questions/4177929/how-to-change-the-indentation-width-in-emacs-javascript-mode
+(setq js-indent-level 2)
 
 (provide 'internals)
 

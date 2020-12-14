@@ -1,4 +1,4 @@
-;;; package --- Bring all the packages
+;; package --- Bring all the packages
 
 ;;; Commentary:
 
@@ -36,7 +36,6 @@
   :config
   (setq cider-repl-display-help-banner nil)
   (setq cider-auto-mode nil))
-
 
 ;; show ido files vertically
 (use-package ido-vertical-mode
@@ -91,9 +90,42 @@
 
 ;; make sure the indentation in fine with clojure and clojurescript
 (use-package clojure-mode
-  :defer t
   :config
   (require 'flycheck-clj-kondo))
+
+;; status app lint config
+(defun hs-clojure-mode-hook ()
+  (interactive)
+  (put-clojure-indent 'letsubs 1)
+  (put-clojure-indent 'create-class 0)
+  (put-clojure-indent 'register-handler-db -1)
+  (put-clojure-indent 'create-class -1)
+  (put-clojure-indent 'register-handler-fx -1)
+  (put-clojure-indent 'register-handler -1)
+  (put-clojure-indent 'reg-fx -1)
+  (put-clojure-indent 'reg-cofx -1)
+  (put-clojure-indent 'reg-sub -1)
+  (put-clojure-indent 'allowed-keys -1)
+  (put-clojure-indent 'start 0)
+  (put-clojure-indent 'list-item 0)
+  (put-clojure-indent 'setTimeout 0)
+  (put-clojure-indent 'set-timeout 0)
+  (put-clojure-indent 'run-test-sync 0)
+  (put-clojure-indent 'keep 0)
+  (put-clojure-indent 'status/move-to-internal-storage 0)
+  (put-clojure-indent 'status/should-move-to-internal-storage? 0)
+  (put-clojure-indent 'utils/show-popup 0)
+  (put-clojure-indent '.watchPosition 0)
+  (put-clojure-indent '.clearWatch 0)
+  (put-clojure-indent 'ra/start-figwheel! 0)
+  (put-clojure-indent '.getCurrentPosition 0)
+  (put-clojure-indent 'crypt/gen-random-bytes 0)
+  (put-clojure-indent 'assoc 0)
+  (put-clojure-indent 'figwheel/watch-and-reload 0)
+  (put-clojure-indent 'leval/eval-in-project 0)
+  (hs-minor-mode 1))
+
+(add-hook 'clojure-mode-hook 'hs-clojure-mode-hook)
 
 ;; load .graphql files gracefully
 (use-package graphql-mode
@@ -134,6 +166,10 @@
   (add-hook 'sgml-mode-hook 'emmet-mode) ;; Auto-start on any markup modes
   (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
   )
+
+;; need this setting for emacs 27
+;; https://emacs.stackexchange.com/questions/48365/custom-theme-set-faces-does-not-work-in-emacs-27
+(setq custom--inhibit-theme-enable nil)
 
 ;; dracula theme
 (use-package dracula-theme)
@@ -179,7 +215,9 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "multimarkdown")
+  :config
+  (add-hook 'markdown-mode-hook 'turn-on-flyspell))
 
 ;; kill typos
 
@@ -195,8 +233,6 @@
 
 (use-package flyspell-correct-ivy
   :after flyspell-correct)
-
-(add-hook 'flyspell-mode-hook #'flyspell-correct-auto-mode)
 
 ;; Org Mode
 ;;; Setup to make org mode experience more pleasant
@@ -261,6 +297,25 @@
 	      (when (string-equal "tsx" (file-name-extension buffer-file-name))
 		(setup-tide-mode))))
   (flycheck-add-mode 'typescript-tslint 'web-mode))
+
+
+;; emoji
+(defvar emojify-company-tooltips-p)
+(use-package emojify
+  :config
+  (setq emojify-company-tooltips-p t)
+  (add-hook 'after-init-hook #'global-emojify-mode))
+
+;; Aggresive Indent
+;; This is too aggressive :sweat-smile:
+;; (use-package aggressive-indent
+;;   :ensure t
+;;   :config
+;;   (global-aggressive-indent-mode)
+;;   (add-to-list 'aggressive-indent-excluded-modes 'html-mode)
+;;   (add-to-list 'aggressive-indent-excluded-modes 'sql-mode)
+;;   (add-to-list 'aggressive-indent-excluded-modes 'web-mode))
+
 
 (provide 'packages)
 
