@@ -72,97 +72,115 @@
   (setq ivy-display-style 'fancy)
   (setq enable-recursive-minibuffers t))
 
+(use-package counsel
+  :ensure t
+  :straight t
+  :defer 1)
+
 (use-package swiper
   :ensure t
   :straight t
   :defer 1
   :config
-  (global-set-key "\C-s" 'swiper))
+  (global-set-key "\C-s" 'swiper)
+  (global-set-key (kbd "C-c j") 'counsel-git-grep))
 
-;; ;; let emacs help you
-;; (use-package which-key		
-;;   :defer t
-;;   :init (which-key-mode))
+;; let emacs help you
+(use-package which-key
+  :straight t
+  :defer 5
+  :init (which-key-mode))
 
-;; ;; color code parenthesis
-;; (use-package rainbow-delimiters
-;;   :defer t
-;;   :init
-;;   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+;; color code parenthesis
+(use-package rainbow-delimiters
+  :defer 5
+  :straight t
+  :init
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
-;; (use-package flycheck
-;;   :init (global-flycheck-mode))
+(use-package flycheck
+  :straight t
+  :defer 5
+  :init (global-flycheck-mode))
 
-;; ;; First install the package, then install the checker as soon as `clojure-mode' is loaded
-;; (use-package flycheck-clj-kondo)
+;; First install the package, then install the checker as soon as `clojure-mode' is loaded
+(use-package flycheck-clj-kondo
+  :straight t
+  :defer 5)
 
-;; ;; make sure the indentation in fine with clojure and clojurescript
-;; (use-package clojure-mode
-;;   :config
-;;   (require 'flycheck-clj-kondo))
+;; make sure the indentation in fine with clojure and clojurescript
+(use-package clojure-mode
+  :straight t
+  :defer 5
+  :config
+  (require 'flycheck-clj-kondo))
 
-;; ;; status app lint config
-;; (defun hs-clojure-mode-hook ()
-;;   (interactive)
-;;   (put-clojure-indent 'letsubs 1)
-;;   (put-clojure-indent 'create-class 0)
-;;   (put-clojure-indent 'register-handler-db -1)
-;;   (put-clojure-indent 'create-class -1)
-;;   (put-clojure-indent 'register-handler-fx -1)
-;;   (put-clojure-indent 'register-handler -1)
-;;   (put-clojure-indent 'reg-fx -1)
-;;   (put-clojure-indent 'reg-cofx -1)
-;;   (put-clojure-indent 'reg-sub -1)
-;;   (put-clojure-indent 'allowed-keys -1)
-;;   (put-clojure-indent 'start 0)
-;;   (put-clojure-indent 'list-item 0)
-;;   (put-clojure-indent 'setTimeout 0)
-;;   (put-clojure-indent 'set-timeout 0)
-;;   (put-clojure-indent 'run-test-sync 0)
-;;   (put-clojure-indent 'keep 0)
-;;   (put-clojure-indent 'status/move-to-internal-storage 0)
-;;   (put-clojure-indent 'status/should-move-to-internal-storage? 0)
-;;   (put-clojure-indent 'utils/show-popup 0)
-;;   (put-clojure-indent '.watchPosition 0)
-;;   (put-clojure-indent '.clearWatch 0)
-;;   (put-clojure-indent 'ra/start-figwheel! 0)
-;;   (put-clojure-indent '.getCurrentPosition 0)
-;;   (put-clojure-indent 'crypt/gen-random-bytes 0)
-;;   (put-clojure-indent 'assoc 0)
-;;   (put-clojure-indent 'figwheel/watch-and-reload 0)
-;;   (put-clojure-indent 'leval/eval-in-project 0)
-;;   (hs-minor-mode 1))
+;; status app specific lint config
+(defun hs-clojure-mode-hook ()
+  (interactive)
+  (put-clojure-indent 'letsubs 1)
+  (put-clojure-indent 'create-class 0)
+  (put-clojure-indent 'register-handler-db -1)
+  (put-clojure-indent 'create-class -1)
+  (put-clojure-indent 'register-handler-fx -1)
+  (put-clojure-indent 'register-handler -1)
+  (put-clojure-indent 'reg-fx -1)
+  (put-clojure-indent 'reg-cofx -1)
+  (put-clojure-indent 'reg-sub -1)
+  (put-clojure-indent 'allowed-keys -1)
+  (put-clojure-indent 'start 0)
+  (put-clojure-indent 'list-item 0)
+  (put-clojure-indent 'setTimeout 0)
+  (put-clojure-indent 'set-timeout 0)
+  (put-clojure-indent 'run-test-sync 0)
+  (put-clojure-indent 'keep 0)
+  (put-clojure-indent 'status/move-to-internal-storage 0)
+  (put-clojure-indent 'status/should-move-to-internal-storage? 0)
+  (put-clojure-indent 'utils/show-popup 0)
+  (put-clojure-indent '.watchPosition 0)
+  (put-clojure-indent '.clearWatch 0)
+  (put-clojure-indent 'ra/start-figwheel! 0)
+  (put-clojure-indent '.getCurrentPosition 0)
+  (put-clojure-indent 'crypt/gen-random-bytes 0)
+  (put-clojure-indent 'assoc 0)
+  (put-clojure-indent 'figwheel/watch-and-reload 0)
+  (put-clojure-indent 'leval/eval-in-project 0)
+  (hs-minor-mode 1))
 
-;; (add-hook 'clojure-mode-hook 'hs-clojure-mode-hook)
+(add-hook 'clojure-mode-hook 'hs-clojure-mode-hook)
 
 ;; ;; load .graphql files gracefully
 ;; (use-package graphql-mode
 ;;   :defer t
 ;;   :ensure t)
 
-;; ;; feel a little more at home with neotree
-;; (use-package neotree
-;;   :config
-;;   (global-set-key [f8] 'neotree-toggle))
+ ;; feel a little more at home with neotree
+(use-package neotree
+  :defer t
+  :straight t
+  :config
+  (global-set-key [f8] 'neotree-toggle))
 
-;; ;; complete anything mode
-;; (use-package company
-;;   :defer t
-;;   :init
-;;   (global-company-mode)
-;;   (setq company-begin-commands
-;;         '(self-insert-command org-self-insert-command orgtbl-self-insert-command c-scope-operator c-electric-colon c-electric-lt-gt c-electric-slash cljr-slash)))
+;; complete anything mode
+(use-package company
+  :defer 5
+  :straight t
+  :init
+  (global-company-mode)
+  (setq company-begin-commands
+        '(self-insert-command org-self-insert-command orgtbl-self-insert-command c-scope-operator c-electric-colon c-electric-lt-gt c-electric-slash cljr-slash)))
 
-;; ;; The almighty paredit
-;; (use-package paredit
-;;   :defer t
-;;   :init
-;;   (progn
-;;     (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
-;;     (add-hook 'clojure-mode-hook 'paredit-mode)
-;;     (add-hook 'clojurescript-mode-hook 'paredit-mode)
-;;     (add-hook 'clojurec-mode-hook 'paredit-mode)
-;;     (add-hook 'cider-repl-mode-hook 'paredit-mode)))
+;; The almighty paredit
+(use-package paredit
+  :defer t
+  :straight t
+  :init
+  (progn
+    (add-hook 'emacs-lisp-mode-hook 'paredit-mode)
+    (add-hook 'clojure-mode-hook 'paredit-mode)
+    (add-hook 'clojurescript-mode-hook 'paredit-mode)
+    (add-hook 'clojurec-mode-hook 'paredit-mode)
+    (add-hook 'cider-repl-mode-hook 'paredit-mode)))
 
 ;; (use-package emmet-mode
 ;;   :commands emmet-mode
@@ -202,10 +220,12 @@
   :init
   (powerline-evil-center-color-theme))
 
-;; ;; magit
-;; (use-package magit
-;;   :ensure t
-;;   :bind (("C-x g" . magit-status)))
+;; magit
+(use-package magit
+  :straight t
+  :ensure t
+  :defer 10
+  :bind (("C-x g" . magit-status)))
 
 ;; ;; you can't escape from yaml
 ;; (use-package yaml-mode

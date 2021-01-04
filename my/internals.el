@@ -4,6 +4,14 @@
 ;;; Remove startup screen
 
 ;;; Code:
+
+;; Set frame size to avoid flicker
+;; https://emacs.stackexchange.com/questions/2269/how-do-i-get-my-initial-frame-to-be-the-desired-size
+;; (when window-system
+;;   (set-frame-position (selected-frame) 80 40)
+;;   (set-frame-size (selected-frame) 100 40))
+
+;; Hide welcome message
 (setq inhibit-startup-message t)
 
 ;; Remove scroll bar, menu bar and tool bar
@@ -26,9 +34,9 @@
 
 ;; Store all backup and autosave files in the tmp dir
 (setq backup-directory-alist
-      `((".*" . ,temporary-file-directory)))
+      `((".*" ., temporary-file-directory)))
 (setq auto-save-file-name-transforms
-      `((".*" ,temporary-file-directory t)))
+      `((".*", temporary-file-directory t)))
 
 ;; Turn off that annoying bell
 (setq ring-bell-function 'ignore)

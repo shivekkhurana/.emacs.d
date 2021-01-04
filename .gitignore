@@ -10,3 +10,4 @@ _customize.el
 network-security.data
 *.cache
 straight/
+transient/
