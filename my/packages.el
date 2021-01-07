@@ -193,10 +193,10 @@
 ;;   (add-hook 'css-mode-hook  'emmet-mode) ;; enable Emmet's css abbreviation.
 ;;   )
 
-;; dracula theme
-(use-package dracula-theme
-  :straight t
-  :ensure t)
+;; monokai theme
+(use-package monokai-theme
+  :ensure t
+  :straight t)
 
 ;; joining the evil side
 (use-package evil
