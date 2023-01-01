@@ -11,3 +11,4 @@ network-security.data
 *.cache
 straight/
 transient/
+emojis/

@@ -48,12 +48,10 @@
 (use-package cider
   :defer t
   :straight t
-  :init
-  (progn
-    (add-hook 'clojure-mode-hook 'cider-mode)
-    (add-hook 'clojurescript-mode-hook 'cider-mode)
-    (add-hook 'clojurec-mode-hook 'cider-mode)
-    (add-hook 'cider-repl-mode-hook 'cider-mode))
+  :hook ((before-save . cider-format-buffer))
+  :hook ((clojure-mode . cider-mode))
+  :hook ((clojurescript-mode . cider-mode))
+  :hook ((cider-repl-mode . cider-mode))
   :config
   (setq cider-repl-display-help-banner nil)
   (setq cider-auto-mode nil))
@@ -135,8 +133,21 @@
 (use-package clojure-mode
   :straight t
   :defer 5
+  :hook ((clojure-mode . lsp-mode))
+  :hook ((clojurescript-mode . lsp-mode))
   :config
   (require 'flycheck-clj-kondo))
+
+(use-package clj-refactor
+  :ensure t
+  :straight t
+  :defer 5
+  :init
+  (add-hook 'clojure-mode-hook 'clj-refactor-mode)
+  :config
+  ;; Configure the Clojure Refactoring prefix:
+  (cljr-add-keybindings-with-prefix "C-c .")
+  :diminish clj-refactor-mode)
 
 ;; status app specific lint config
 (defun hs-clojure-mode-hook ()
@@ -346,27 +357,20 @@
   (add-hook 'org-mode-hook 'org-bullets-mode)
   (setq org-bullets-bullet-list '("⌁")))
 
-;; ;; Typescript
-;; (defun setup-tide-mode ()
-;;   (interactive)
-;;   (tide-setup)
-;;   (flycheck-mode +1)
-;;   (setq flycheck-check-syntax-automatically '(save mode-enabled))
-;;   (eldoc-mode +1)
-;;   (tide-hl-identifier-mode +1)
-;;   (company-mode +1))
+;; Typescript
+(use-package typescript-mode
+  :straight t
+  :ensure t
+  :defer 5)
 
-;; (use-package tide
-;;   :config
-;;   (add-hook 'before-save-hook 'tide-format-before-save)
-;;   (add-hook 'typescript-mode-hook #'setup-tide-mode)
-;;   (add-to-list 'auto-mode-alist '("\\.tsx\\'" . web-mode))
-;;   (add-hook 'web-mode-hook
-;; 	    (lambda ()
-;; 	      (when (string-equal "tsx" (file-name-extension buffer-file-name))
-;; 		(setup-tide-mode))))
-;;   (flycheck-add-mode 'typescript-tslint 'web-mode))
-
+(use-package tide
+  :ensure t
+  :straight t
+  :defer 5
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode)
+         (before-save . tide-format-before-save)))
 
 ;; emoji
 (defvar emojify-company-tooltips-p)
@@ -461,7 +465,9 @@
    "\\.[jt]sx?\\'"
    "\\.css?\\'")
   :hook ((web-mode . company-mode))
+  :hook ((web-mode . lsp-mode))
   :config
+  (flycheck-add-mode 'javascript-eslint 'web-mode)
   (setq web-mode-content-types-alist '(("jsx" . "\\.[jt]sx?\\'")))
   (setq web-mode-markup-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
@@ -505,6 +511,19 @@
   :straight t
   :defer 10
   :ensure t)
+
+;; project specific .editorconfig
+(use-package editorconfig
+  :straight t
+  :ensure t
+  :defer 10
+  :config
+  (editorconfig-mode 1))
+
+(use-package json-mode
+  :straight t
+  :ensure t
+  :defer 10)
 
 (provide 'packages)
 
